@@ -127,7 +127,7 @@ const About = () => {
               layout="fill" 
               objectFit="cover" 
               alt="Profile Image" 
-              className="hover:scale-105 transition-transform duration-500 w-30 h-30"
+              className="hover:scale-105  transition-transform duration-500 w-30 h-30"
             />
             <div className="absolute inset-0 bg-purple-500  opacity-10 transition-opacity duration-300"></div>
           </motion.div>
