@@ -140,7 +140,7 @@ const About = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
           >
             <p className="text-lg md:text-xl leading-relaxed">
-              I'm a <span className="font-bold text-purple-300">Full-Stack Developer</span> (React, Next.js, Node.js) with strong software architecture skills. I build <span className="font-bold text-pink-300">fast, scalable, SEO-friendly</span> web apps with clean UI, solid backend, and <span className="font-bold text-cyan-300">real business impact</span>.
+              I&apos;m a <span className="font-bold text-purple-300">Full-Stack Developer</span> (React, Next.js, Node.js) with strong software architecture skills. I build <span className="font-bold text-pink-300">fast, scalable, SEO-friendly</span> web apps with clean UI, solid backend, and <span className="font-bold text-cyan-300">real business impact</span>.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               
@@ -292,7 +292,6 @@ const About = () => {
           <button 
             onClick={prevHobby}
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md p-3 rounded-full hover:bg-white/30 transition-all"
-            whileHover={{ scale: 1.1 }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -302,7 +301,6 @@ const About = () => {
           <button 
             onClick={nextHobby}
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-md p-3 rounded-full hover:bg-white/30 transition-all"
-            whileHover={{ scale: 1.1 }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -312,32 +310,7 @@ const About = () => {
       </motion.section>
 
         
-      {/* Floating particles background */}
-      <div className="fixed inset-0 overflow-hidden -z-10 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/10"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              width: Math.random() * 10 + 2,
-              height: Math.random() * 10 + 2,
-              opacity: Math.random() * 0.5 + 0.1
-            }}
-            animate={{
-              y: [null, (Math.random() - 0.5) * 100],
-              x: [null, (Math.random() - 0.5) * 100],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
+    
     </div>
   );
 };

@@ -72,7 +72,7 @@ const Contact = () => {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            Have a project in mind or want to collaborate? Reach out and let's create something amazing together.
+            Have a project in mind or want to collaborate? Reach out and let&apos;s create something amazing together.
           </motion.p>
         </motion.div>
 
@@ -93,7 +93,7 @@ const Contact = () => {
                     className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
                     whileHover={{ scale: 1.02 }}
                   >
-                    Let's Connect
+                    Let&apos;s Connect
                   </motion.h2>
                   
                   <motion.blockquote 
@@ -103,7 +103,7 @@ const Contact = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 }}
                   >
-                    "Speed is the currency of business."
+                    &quot;Speed is the currency of business.&quot;
                     <footer className="mt-4 text-lg not-italic text-purple-300">—  Marc Benioff, CEO of Salesforce</footer>
                   </motion.blockquote>
                 </div>
@@ -289,7 +289,7 @@ const Contact = () => {
                       animate={{ opacity: 1, y: 0 }}
                       className="mt-4 p-3 bg-green-500/10 border border-green-500/30 text-green-300 rounded-lg text-center"
                     >
-                      Message sent successfully! I'll get back to you soon.
+                      Message sent successfully! I&apos;ll get back to you soon.
                     </motion.div>
                   )}
                 </div>
@@ -300,31 +300,7 @@ const Contact = () => {
       </div>
 
       {/* Floating particles background */}
-      <div className="fixed inset-0 overflow-hidden -z-10 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/10"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              width: Math.random() * 10 + 2,
-              height: Math.random() * 10 + 2,
-              opacity: Math.random() * 0.5 + 0.1
-            }}
-            animate={{
-              y: [null, (Math.random() - 0.5) * 100],
-              x: [null, (Math.random() - 0.5) * 100],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
+    
     </div>
   );
 };

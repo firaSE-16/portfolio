@@ -234,7 +234,7 @@ const Service = () => {
         >
           <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to start your project?</h3>
           <p className="text-white/80 mb-6 max-w-2xl mx-auto">
-            Let's discuss how I can help bring your ideas to life with cutting-edge technology and exceptional user experiences.
+            Let&apos;s discuss how I can help bring your ideas to life with cutting-edge technology and exceptional user experiences.
           </p>
           <button className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/30 transition-all">
             Contact Me
@@ -243,31 +243,7 @@ const Service = () => {
       </motion.section>
 
       {/* Floating particles background */}
-      <div className="fixed inset-0 overflow-hidden -z-10 pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-white/10"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              width: Math.random() * 10 + 2,
-              height: Math.random() * 10 + 2,
-              opacity: Math.random() * 0.5 + 0.1
-            }}
-            animate={{
-              y: [null, (Math.random() - 0.5) * 100],
-              x: [null, (Math.random() - 0.5) * 100],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
+    
     </div>
   );
 };

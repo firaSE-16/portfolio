@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { FiExternalLink, FiChevronDown, FiChevronUp, FiGithub } from "react-icons/fi";
 import { FaReact, FaNodeJs, FaDatabase, FaTools } from "react-icons/fa";
-import { SiNextdotjs, SiTailwindcss, SiTypescript, SiMongodb, SiPostgresql, SiDocker, SiAws } from "react-icons/si";
+import { SiNextdotjs, SiTailwindcss, SiTypescript, SiMongodb, SiPostgresql, SiDocker } from "react-icons/si";
 
 const skills = [
   {
@@ -418,7 +418,7 @@ const Project = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            Here's a showcase of my technical expertise and the projects I've built to demonstrate these skills in action.
+            Here&apos;s a showcase of my technical expertise and the projects I&apos;ve built to demonstrate these skills in action.
           </motion.p>
         </motion.div>
 
