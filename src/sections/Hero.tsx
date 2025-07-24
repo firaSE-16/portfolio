@@ -1,24 +1,37 @@
-"use client"
+"use client";
+
 import React, { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 
-const Hero = () => {
-  // State hooks
-  const [particles, setParticles] = useState<Array<any>>([]);
-  const [bgParticles, setBgParticles] = useState<Array<any>>([]);
-  const [isMounted, setIsMounted] = useState(false);
+interface AnimatedParticle {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  id: number | string | bigint | any;
+  size: number;
+  left: number;
+  delay: number;
+  duration: number;
+  opacity: number;
+  color: string;
+  shape: 'circle' | 'triangle' | 'square';
+  blur: number;
+  initialY: number;
+  initialX: number;
+}
 
-  // Refs
+const Hero = () => {
+  const [mounted, setMounted] = useState(false);
+  const [particles, setParticles] = useState<Array<AnimatedParticle>>([]);
+  const [bgParticles, setBgParticles] = useState<Array<AnimatedParticle>>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // Motion values
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const rotateX = useTransform(mouseY, [0, 1], [15, -15]);
   const rotateY = useTransform(mouseX, [0, 1], [-15, 15]);
 
-  // Helper functions
   const getRandomParticleColor = () => {
     const colors = [
       "var(--primary)",
@@ -43,41 +56,41 @@ const Hero = () => {
   };
 
   useEffect(() => {
+    setMounted(true);
     setIsMounted(true);
     
-    // Enhanced particle generation with more variety
-    const generatedParticles = Array.from({ length: 50 }).map((_, i) => ({
+    // Generate consistent particles on both server and client
+    const generatedParticles: AnimatedParticle[] = Array.from({ length: 50 }).map((_, i) => ({
       id: i,
-      size: Math.random() * 8 + 2,
-      left: Math.random() * 100,
-      delay: Math.random() * 15,
-      duration: Math.random() * 20 + 15,
-      opacity: Math.random() * 0.6 + 0.2,
-      color: getRandomParticleColor(),
-      shape: Math.random() > 0.7 ? "circle" : Math.random() > 0.5 ? "triangle" : "square",
-      blur: Math.random() * 3,
-      initialY: Math.random() * 100 - 50,
-      initialX: Math.random() * 100 - 50
+      size: 2 + (i % 8), // More deterministic sizing
+      left: (i * 2) % 100, // More deterministic positioning
+      delay: (i % 15),
+      duration: 15 + (i % 20),
+      opacity: 0.2 + (i % 5) * 0.1,
+      color: colors[i % colors.length],
+      shape: i % 3 === 0 ? "circle" : i % 3 === 1 ? "triangle" : "square",
+      blur: (i % 4),
+      initialY: (i * 3) % 100 - 50,
+      initialX: (i * 5) % 100 - 50,
     }));
 
-    const generatedBgParticles = Array.from({ length: 60 }).map((_, i) => ({
-      id: `bg-${i}`,
-      size: Math.random() * 6 + 1,
-      left: Math.random() * 100,
-      duration: Math.random() * 25 + 15,
-      delay: Math.random() * 10,
-      opacity: Math.random() * 0.4 + 0.1,
-      blur: Math.random() * 5,
-      color: getRandomBgParticleColor(),
-      shape: Math.random() > 0.8 ? "circle" : "square",
-      initialY: Math.random() * 100 - 50,
-      initialX: Math.random() * 100 - 50
+    const generatedBgParticles: AnimatedParticle[] = Array.from({ length: 50 }).map((_, i) => ({
+      id: i + 50, // Different IDs from main particles
+      size: 2 + ((i + 5) % 8),
+      left: ((i + 3) * 2) % 100,
+      delay: ((i + 2) % 15),
+      duration: 15 + ((i + 1) % 20),
+      opacity: 0.2 + ((i + 2) % 5) * 0.1,
+      color: bgColors[(i + 1) % bgColors.length],
+      shape: (i + 1) % 3 === 0 ? "circle" : (i + 1) % 3 === 1 ? "triangle" : "square",
+      blur: ((i + 1) % 4),
+      initialY: ((i + 2) * 3) % 100 - 50,
+      initialX: ((i + 3) * 5) % 100 - 50,
     }));
 
     setParticles(generatedParticles);
     setBgParticles(generatedBgParticles);
 
-    // Mouse movement effect
     const handleMouseMove = (e: MouseEvent) => {
       if (!heroRef.current) return;
       const rect = heroRef.current.getBoundingClientRect();
@@ -89,7 +102,25 @@ const Hero = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  if (!isMounted) return null;
+  // Define colors arrays outside the effect for consistency
+  const colors = [
+    "var(--primary)",
+    "var(--secondary)",
+    "var(--muted)",
+    "rgba(123, 97, 255, 0.8)",
+    "rgba(226, 179, 239, 0.8)",
+    "rgba(218, 131, 242, 0.8)"
+  ];
+
+  const bgColors = [
+    "rgba(226,179,239,0.8)",
+    "rgba(218,131,242,0.8)",
+    "rgba(123, 97, 255, 0.6)",
+    "rgba(168, 85, 247, 0.6)",
+    "rgba(192, 132, 252, 0.6)"
+  ];
+
+  if (!mounted || !isMounted) return null;
 
   return (
     <motion.div
@@ -123,8 +154,8 @@ const Hero = () => {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {Array.from({ length: 8 }).map((_, i) => {
           const angle = (360 / 8) * i;
-          const duration = 20 + Math.random() * 20;
-          const delay = Math.random() * 10;
+          const duration = 20 + (i % 20);
+          const delay = i % 10;
           
           return (
             <motion.div
@@ -134,8 +165,8 @@ const Hero = () => {
                 background: `linear-gradient(90deg, rgba(168, 85, 247, 0) 0%, rgba(168, 85, 247, 0.3) 50%, rgba(168, 85, 247, 0) 100%)`,
                 transform: `rotate(${angle}deg) translateY(-50vh)`,
                 height: "100vh",
-                width: `${Math.random() * 2 + 1}px`,
-                opacity: Math.random() * 0.3 + 0.1
+                width: `${1 + (i % 2)}px`,
+                opacity: 0.1 + (i % 3) * 0.1
               }}
               animate={{
                 opacity: [0, 0.3, 0],
@@ -216,7 +247,7 @@ const Hero = () => {
       {/* Floating particles with shapes */}
       {particles.map((particle) => (
         <motion.div
-          key={particle.id}
+          key={`particle-${particle.id}`}
           className={`absolute pointer-events-none ${particle.shape === 'circle' ? 'rounded-full' : particle.shape === 'triangle' ? 'triangle' : ''}`}
           style={{
             width: `${particle.size}px`,
@@ -231,7 +262,7 @@ const Hero = () => {
           }}
           animate={{
             y: [`${particle.initialY}vh`, `calc(100vh + ${particle.size}px)`],
-            x: [`${particle.initialX}px`, `${particle.initialX + (Math.random() * 100 - 50)}px`],
+            x: [`${particle.initialX}px`, `${particle.initialX + ((particle.id % 100) - 50)}px`],
             rotate: [0, 360],
             opacity: [particle.opacity, particle.opacity * 0.5, particle.opacity]
           }}
@@ -247,7 +278,7 @@ const Hero = () => {
       {/* Background particles with parallax effect */}
       {bgParticles.map((particle) => (
         <motion.div
-          key={particle.id}
+          key={`bg-particle-${particle.id}`}
           className={`absolute pointer-events-none ${particle.shape === 'circle' ? 'rounded-full' : ''}`}
           style={{
             width: `${particle.size}px`,
@@ -257,11 +288,10 @@ const Hero = () => {
             backgroundColor: particle.color,
             opacity: particle.opacity,
             filter: `blur(${particle.blur}px)`,
-           
           }}
           animate={{
             y: [`${particle.initialY}vh`, `calc(-100vh - ${particle.size}px)`],
-            x: [`${particle.initialX}px`, `${particle.initialX + (Math.random() * 40 - 20)}px`],
+            x: [`${particle.initialX}px`, `${particle.initialX + ((particle.id % 40) - 20)}px`],
             rotate: [0, 360],
           }}
           transition={{
@@ -276,13 +306,13 @@ const Hero = () => {
       {/* Dynamic starfield with twinkling effect */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 200 }).map((_, i) => {
-          const size = Math.random() * 2;
-          const left = Math.random() * 100;
-          const top = Math.random() * 100;
-          const opacity = Math.random() * 0.8 + 0.2;
-          const delay = Math.random() * 5;
-          const duration = Math.random() * 4 + 2;
-          const twinkleDuration = Math.random() * 3 + 1;
+          const size = (i % 3);
+          const left = (i * 0.5) % 100;
+          const top = (i * 0.7) % 100;
+          const opacity = 0.2 + (i % 6) * 0.1;
+          const delay = i % 5;
+          const duration = 2 + (i % 4);
+          const twinkleDuration = 1 + (i % 3);
           
           return (
             <motion.div
@@ -317,11 +347,11 @@ const Hero = () => {
       {/* Nebula effect */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {Array.from({ length: 5 }).map((_, i) => {
-          const size = 200 + Math.random() * 300;
-          const left = Math.random() * 100;
-          const top = Math.random() * 100;
-          const opacity = Math.random() * 0.1 + 0.05;
-          const duration = 30 + Math.random() * 30;
+          const size = 200 + (i * 60);
+          const left = (i * 20) % 100;
+          const top = (i * 25) % 100;
+          const opacity = 0.05 + (i * 0.02);
+          const duration = 30 + (i * 6);
           const color = i % 2 === 0 ? "rgba(123, 97, 255," : "rgba(226, 179, 239,";
           
           return (
@@ -334,17 +364,16 @@ const Hero = () => {
                 left: `${left}%`,
                 top: `${top}%`,
                 background: `radial-gradient(circle, ${color}${opacity}) 0%, ${color}0) 70%)`,
-                filter: `blur(${40 + Math.random() * 40}px)`,
-               
+                filter: `blur(${40 + (i * 8)}px)`,
               }}
               animate={{
-                x: [0, (Math.random() * 100 - 50)],
-                y: [0, (Math.random() * 100 - 50)],
+                x: [0, (i * 20 - 50)],
+                y: [0, (i * 20 - 50)],
                 opacity: [opacity, opacity * 1.5, opacity]
               }}
               transition={{
                 duration: duration,
-                delay: Math.random() * 10,
+                delay: i * 2,
                 repeat: Infinity,
                 repeatType: "reverse",
                 ease: "easeInOut",
