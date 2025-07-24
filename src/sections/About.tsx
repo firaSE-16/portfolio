@@ -3,8 +3,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { Poppins } from "next/font/google";
-import { poppins } from "@/app/page";
+
 
 const hobbies = [
   {
@@ -134,7 +133,7 @@ const About = () => {
           </motion.div>
           
           <motion.div 
-            className={`${poppins.className} max-w-xl bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl`}
+            className={`max-w-xl bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl`}
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}

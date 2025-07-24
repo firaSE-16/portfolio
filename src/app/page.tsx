@@ -12,7 +12,7 @@ export const poppins = Poppins({
 })
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-900 text-white">
+    <main className={`${poppins.className} min-h-screen bg-gray-900 text-white`}>
       <Hero />
       <About/>
       <Project/>
