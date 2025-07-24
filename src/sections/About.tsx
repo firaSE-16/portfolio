@@ -123,7 +123,7 @@ const About = () => {
             }}
           >
             <Image 
-              src='/image.png' 
+              src='/profile2.JPG' 
               layout="fill" 
               objectFit="cover" 
               alt="Profile Image" 
